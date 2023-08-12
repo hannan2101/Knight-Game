@@ -1,0 +1,63 @@
+from pygame import *
+
+window = display.set_mode((750, 500))
+
+clock = time.Clock()
+
+
+class GameSprite(sprite.Sprite):
+    # class constructor
+    def __init__(self, player_image, player_x, player_y, player_speed, width, height):
+        super().__init__()
+
+        # every sprite must store the image property
+        self.image = transform.scale(image.load(player_image), (width, height))
+        self.speed = player_speed
+
+        # every sprite must have the rect property – the rectangle it is fitted in
+        self.rect = self.image.get_rect()
+        self.rect.x = player_x
+        self.rect.y = player_y
+
+    def reset(self):
+        window.blit(self.image, (self.rect.x, self.rect.y))
+
+
+class Player(GameSprite):
+    def update_C(self):
+        keys_pressed = key.get_pressed()
+        if keys_pressed[K_UP] and rightPlayer.rect.y > 0:
+           rightPlayer.rect.y -= rightPlayer.speed
+
+
+
+
+
+
+def gravity(object):
+    if  object.rect.y + object.rect.y < 750:
+        object.rect.y += 2
+
+   
+
+
+
+
+Character1 = Player("Knight.png", 0, 200, 5, 90 , 150)
+
+isRunning = True
+while isRunning:
+    for e in event.get():
+        if e.type == QUIT:
+            isRunning = False
+    window.fill((0, 0, 0))
+    
+    Character1.reset()
+    
+
+    Character1.update_C()
+    
+
+    gravity(Character1)
+    display.update()
+    clock.tick(40) 
